@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>数组方法</title>
+</head>
+<body>
+  <script>
+    var  tabledata= [
+    { Id: 1, name: "办公管理", parentId: 0 },
+    { Id: 2, name: "请假申请", parentId: 1 },
+    { Id: 3, name: "出差申请", parentId: 1 },
+    { Id: 4, name: "请假记录", parentId: 2 },
+    { Id: 5, name: "系统设置", parentId: 0 },
+    { Id: 6, name: "权限管理", parentId: 5 },
+    { Id: 7, name: "用户角色", parentId: 6 },
+    { Id: 8, name: "菜单设置", parentId: 6 }
+  ];
+  var data = this.tabledata.concat();
+  const data1 = firstData();
+  mapTagData()
+
+  console.log(tabledata,data,data1)
+  function firstData() {
+
+    let arrData= [];
+    if( data && (data.length) === 0 ) return
+    for (var b = 0; b < data.length; b++) {
+      let isHasParent= false;
+      let recordVal = null;
+      for (var d = 0; d < data.length; d++) {
+        if (data[b].parentId === data[d].Id) {
+          isHasParent = true;
+        }
+        if (!isHasParent) {
+          recordVal = data[b];
+        } else {
+          recordVal = null;
+        }
+      }
+      if (!isHasParent && recordVal !== null) arrData.push(recordVal);
+    }
+    return arrData;
+  }
+  function mapTagData(firstData) {
+    if (firstData instanceof Array && firstData.length > 1) {
+      for (var i = 0; i < firstData.length; i++) {
+        for (var a = 0; a < data.length; a++) {
+          if (data[a].parentId === firstData[i].Id) {
+            if (firstData[i].children === undefined) {
+              firstData[i].children = [];
+              firstData[i].children.push(data[a]);
+            } else {
+              firstData[i].children.push(data[a]);
+            }
+          }
+        }
+        if (firstData[i].children) {
+          this.mapTagData(firstData[i].children);
+        }
+      }
+    }
+  }
+  
+  </script>
+</body>
+</html>
